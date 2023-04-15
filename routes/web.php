@@ -26,4 +26,7 @@ Route::get('/tareas', function () {
   return view('todos.index');
 });
 
+Route::get('/tareas',[TodosController::class,'index'])->name('index');
 Route::post('/tareas',[TodosController::class,'store'])->name('todos');
+Route::patch('/tareas',[TodosController::class,'store'])->name('todos-edit');
+Route::delete('/tareas',[TodosController::class,'store'])->name('todos-destroy');
