@@ -5,7 +5,7 @@
       <form action="{{route('todos')}}" method="POST">
         @csrf
         @if (session('success'))
-            <h6 class="alert alert-success">{{ session('sucess') }}</h6>
+            <h6 class="alert alert-success">{{ session('success') }}</h6>
         @endif
         @error('title')
             <h6 class="alert alert-danger">{{$message}}</h6>
