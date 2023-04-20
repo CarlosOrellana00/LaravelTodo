@@ -13,7 +13,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('categories.index',['categorias' =>$categories]);
+        return view('categories.index',['categories' => $categories]);
     }
 
     /**
@@ -29,8 +29,8 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'  => 'required|unique:categorues|max:255',
+        $this->validate($request, [
+            'name'  => 'required|unique:categories|max:255',
             'color' => 'required|max:7'
         ]);
 
@@ -45,7 +45,7 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $category = Category::find($id);
         return view('categories.show',['category' => $category]);
@@ -64,7 +64,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = Category::find($id);
+        $category = Category::find($category);
         $category->name = $request->name;
         $category->color = $request->color;
         $category->save();
@@ -75,11 +75,13 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($categpry)
     {
-        $category = Category::find($id);
+        $category = Category::find($category);
+        $category->todos()->each(function($todo){
+            $todo->delete();
+        });
         $category->delete();
-
         return redirect()->route('categories.index')->with('success','Categoria Eliminada!');
     }
 }
